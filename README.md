@@ -94,38 +94,82 @@ try {
 
 ## Server Side
 
+Add your Appwrite credentials.
+
+- `enabled` Enable/Disable Web SDK - default `false`
+- `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
+- `projectId` Project ID __the module will not load if missing__
+- `apiKey` Api Key __the module will not load if missing__
+- `defaultLocale` default `en-US`
+
 The server side integration should be used with caution as it exposes 2 clients, `useAppwriteSSRAdminClient` and `useAppwriteSSRSessionClient`
 
 ### `useAppwriteSSRAdminClient` Server Util
 
 This composable needs an `API KEY` with at least `session.create` permissions. It can be used to create sessions,
-do administrative tasks. *__CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN__*
+do administrative tasks. *__CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN AND BYPASS ANY RATE LIMITS AND PERMISSIONS__*
 
 ```ts
-import { useAppwriteSSRAdminClient } from '#nuxt-appwrite-ii/server/services'
+import { useAppwriteSSRAdminClient } from '#nuxt-appwrite-ssr'
 
 export default defineEventHandler(async (event) => {
+  const { email, password } = await readBody<{ email: string, password: string }>(event)
   const { account, AppwriteException } = useAppwriteSSRAdminClient(event)
 
+  const config = useRuntimeConfig(event)
+
   try {
-    const session = await account.createEmailPasswordSession('someone@example.com', 'superSecretPassword')
+    const session = await account.createEmailPasswordSession(email, password)
 
-    // ...rest of the code logic by setting a cookie etc...
-    // TODO: complete example with cookies
+    setCookie(event, config.appwrite.cookieName, session.secret, {
+      expires: new Date(session.expire),
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    })
 
-    return 'session created successfullt'
-
-  } catch (error) {
-     if (error instanceof AppwriteException) {
+    return { status: 'success', message: 'session created' }
+  }
+  catch (error: any) {
+    if (error instanceof AppwriteException) {
       return createError({
         statusCode: error.code,
         statusMessage: error.message,
-        message: error.name
-      });
+        message: error.name,
+      })
     }
-    return createError(error);
+    return createError(error)
   }
 })
+
+```
+
+### `useAppwriteSSRSessionClient` Server Util
+
+This composable is used after the `useAppwriteSSRAdminClient` as it uses the session created. And will respect any applied rate limits and permissions for the user.
+
+```ts
+import { useAppwriteSSRSessionClient } from '#nuxt-appwrite-ssr'
+
+export default defineEventHandler(async (event) => {
+  const { account, AppwriteException } = useAppwriteSSRSessionClient(event)
+
+  try {
+    return await account.get()
+  }
+  catch (error: any) {
+    if (error instanceof AppwriteException) {
+      return createError({
+        statusCode: error.code,
+        statusMessage: error.message,
+        message: error.name,
+      })
+    }
+    return createError(error)
+  }
+})
+
 ```
 
 ## Contribution
