@@ -5,13 +5,17 @@ import { name, version } from '../package.json'
 import type { ModuleOptions } from './runtime/types'
 
 const defaultEndpoint = 'https://cloud.appwrite.io/v1'
-const defaultLocale = 'en-US'
+const defaultLocale = 'en'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
     version,
     configKey: 'nuxtAppwrite',
+    compatibility: {
+      nuxt: '^3.0.0',
+      bridge: false,
+    },
   },
   defaults: {
     client: {
@@ -27,6 +31,7 @@ export default defineNuxtModule<ModuleOptions>({
       apiKey: '',
       defaultLocale,
       cookieName: 'a_session',
+      i18nCookieKey: 'i18nCookieKey',
       selfsignedSSL: false,
     },
   },
@@ -40,7 +45,6 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     nuxt.options.alias['#nuxt-appwrite'] = resolve(runtimeDir)
-    // nuxt.options.alias['#nuxt-appwrite-ii-ssr'] = resolve(runtimeDir, 'server/services')
 
     addTemplate({
       filename: 'types/appwrite.d.ts',
@@ -98,16 +102,11 @@ export default defineNuxtModule<ModuleOptions>({
 
       nuxt.hook('nitro:config', (nitroConfig) => {
         nitroConfig.alias = nitroConfig.alias || {}
-
-        // Inline module runtime in Nitro bundle
         nitroConfig.externals = defu(typeof nitroConfig.externals === 'object' ? nitroConfig.externals : {}, {
           inline: [resolve('./runtime')],
         })
         nitroConfig.alias['#nuxt-appwrite-ssr'] = resolve('./runtime/server/services')
       })
-
-      // nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-      // nuxt.options.nitro.alias['#nuxt-appwrite-ii-ssr'] = resolve('./runtime/server/services')
 
       extendViteConfig((config) => {
         config.optimizeDeps ||= {}

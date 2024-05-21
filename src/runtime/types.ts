@@ -80,7 +80,7 @@ type AppwriteCommonConfig = {
   /**
    * Appwrite default locale
    *
-   * @default 'en-US'
+   * @default 'en'
    */
   defaultLocale?: string
 }
@@ -109,6 +109,12 @@ export type AppwriteServer = AppwriteCommonConfig & {
    * @default 'a_session'
    */
   cookieName?: string
+  /**
+   * i18n cookie name
+   *
+   * @default 'cookieKey'
+   */
+  i18nCookieKey?: string
   /**
    * Enable/Disable Selfsigned SSL certificates
    * usefuel during development
