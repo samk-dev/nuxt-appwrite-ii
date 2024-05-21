@@ -45,7 +45,7 @@ export default defineNuxtModule<ModuleOptions>({
     addTemplate({
       filename: 'types/appwrite.d.ts',
       getContents: () => `
-        import type { AppwriteClient, AppwriteServer } from '#nuxt-appwrite-ii/types'
+        import type { AppwriteClient, AppwriteServer } from '#nuxt-appwrite/types'
 
         declare module 'nuxt/schema' {
           interface RuntimeConfig {
