@@ -22,15 +22,17 @@ export const useAppwriteSSRSessionClient = (event: H3Event) => {
   const config = useRuntimeConfig(event)
   const requestHeaders = event.node.req.headers
 
-  // TODO: set locale based on nuxt-i18n
-  const client = new Client()
-    .setEndpoint(config.appwrite.endpoint)
-    .setProject(config.appwrite.projectId)
-    .setLocale(config.appwrite.defaultLocale)
-    .setForwardedUserAgent(requestHeaders['user-agent'] as string)
-    .setSelfSigned(config.appwrite.selfsignedSSL)
+  const localeCookie = getCookie(event, String(config.appwrite.i18nCookieKey))
+  const defaultLocale = localeCookie || String(config.appwrite.defaultLocale)
 
-  const cookie = getCookie(event, config.appwrite.cookieName)
+  const client = new Client()
+    .setEndpoint(String(config.appwrite.endpoint))
+    .setProject(config.appwrite.projectId)
+    .setLocale(defaultLocale)
+    .setForwardedUserAgent(requestHeaders['user-agent'] as string)
+    .setSelfSigned(Boolean(config.appwrite.selfsignedSSL))
+
+  const cookie = getCookie(event, String(config.appwrite.cookieName))
   if (cookie) client.setSession(cookie)
 
   return {

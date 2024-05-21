@@ -14,22 +14,24 @@ import {
   ID,
   AppwriteException,
 } from 'node-appwrite'
-import type { H3Event } from 'h3'
+import { type H3Event, getCookie } from 'h3'
 import type { AppwriteNode } from '../../types'
 import { useRuntimeConfig } from '#imports'
 
 export const useAppwriteSSRAdminClient = (event: H3Event) => {
-  const runtimeConfig = useRuntimeConfig(event)
+  const config = useRuntimeConfig(event)
   const requestHeaders = event.node.req.headers
 
-  // TODO: set locale based on nuxt-i18n
+  const localeCookie = getCookie(event, String(config.appwrite.i18nCookieKey))
+  const defaultLocale = localeCookie || String(config.appwrite.defaultLocale)
+
   const client = new Client()
-    .setEndpoint(runtimeConfig.appwrite.endpoint)
-    .setProject(runtimeConfig.appwrite.projectId)
-    .setLocale(runtimeConfig.appwrite.defaultLocale)
+    .setEndpoint(String(config.appwrite.endpoint))
+    .setProject(config.appwrite.projectId)
+    .setLocale(defaultLocale)
     .setForwardedUserAgent(requestHeaders['user-agent'] as string)
-    .setSelfSigned(runtimeConfig.appwrite.selfsignedSSL)
-    .setKey(runtimeConfig.appwrite.apiKey)
+    .setSelfSigned(Boolean(config.appwrite.selfsignedSSL))
+    .setKey(config.appwrite.apiKey)
 
   return {
     get client() {

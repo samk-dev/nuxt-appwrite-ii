@@ -28,11 +28,13 @@
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
+  "peerDependencies": {
+    "appwrite": "^14.0.1",
+    "node-appwrite": "^12.1.0-rc.4"
+  },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
-    "appwrite": "^14.0.1",
-    "defu": "^6.1.4",
-    "node-appwrite": "^12.1.0-rc.4"
+    "defu": "^6.1.4"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.2.0",

@@ -58,7 +58,7 @@ Add your Appwrite credentials.
 - `enabled` Enable/Disable Web SDK - default `true`
 - `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
 - `projectId` Project ID __the module will not load if missing__
-- `defaultLocale` default `en-US`
+- `defaultLocale` default `en`
 
 ```ts
 export default defineNuxtConfig({
@@ -69,7 +69,7 @@ export default defineNuxtConfig({
       enabled: true,
       endpoint: 'https://cloud.appwrite.io/v1',
       projectId: '', // required**
-      defaultLocale: 'en-US'
+      defaultLocale: 'en'
     },
   },
   // ...restOfConfig
@@ -100,7 +100,9 @@ Add your Appwrite credentials.
 - `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
 - `projectId` Project ID __the module will not load if missing__
 - `apiKey` Api Key __the module will not load if missing__
-- `defaultLocale` default `en-US`
+- `cookieName` Session cookie name - default `a_session`
+- `i18nCookieKey` nuxt-i18n cookie key - default `i18n_redirected`
+- `defaultLocale` default `en`
 
 ```ts
 export default defineNuxtConfig({
@@ -113,7 +115,9 @@ export default defineNuxtConfig({
       endpoint: 'https://cloud.appwrite.io/v1',
       projectId: '', // required**
       apiKey: '', // required**
-      defaultLocale: 'en-US'
+      cookieName: 'a_session',
+      i18nCookieKey: 'i18n_redirected',
+      defaultLocale: 'en'
     }
   },
   // ...restOfConfig
@@ -189,6 +193,12 @@ export default defineEventHandler(async (event) => {
 })
 
 ```
+
+## i18n Support
+
+The Web SDK relies on `nuxt-i18n` `i18n:beforeLocaleSwitch` and updates the client locale header automatically.
+
+The Server SDK relies on `nuxt-i18n` `i18nCookieKey` and updates the client locale header automatically.
 
 ## Contribution
 

@@ -21,11 +21,15 @@ export default defineNuxtPlugin({
   setup(nuxtApp) {
     const config = nuxtApp.$config.public.appwrite
 
-    // TODO: set the locale based on nuxt-i18n
     const client = new Client()
       .setEndpoint(String(config.endpoint))
       .setProject(config.projectId)
       .setLocale(String(config.defaultLocale))
+
+    // @ts-expect-error: nuxt-i18n
+    nuxtApp.hook('i18n:beforeLocaleSwitch', ({ newLocale }: { newLocale: string }) => {
+      client.setLocale(newLocale)
+    })
 
     return {
       provide: {
