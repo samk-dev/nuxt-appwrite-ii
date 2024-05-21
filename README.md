@@ -1,14 +1,14 @@
-# Nuxt Appwrite
+# Nuxt Appwrite II
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Appwrite Client and Server integration for Nuxt. It'a a bit opinionated to suit the projects I am working on, feel free to use it but before using please checkout [nuxt-appwrite by @Hrdtr](https://nuxt.com/modules/appwrite)
+Appwrite Client and Server integration for Nuxt. It'a a bit opinionated to suit the projects I am working on, feel free to use it but before using please checkout [nuxt-appwrite-ii by @Hrdtr](https://nuxt.com/modules/appwrite)
 
 - [✨ &nbsp;Changelog](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-appwrite?file=playground%2Fapp.vue) -->
+<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-appwrite-ii?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -46,10 +46,10 @@ yarn install node-appwrite
 Install the module to your Nuxt application with one command:
 
 ```bash
-npx nuxi module add nuxt-appwrite
+npx nuxi module add nuxt-appwrite-ii
 ```
 
-That's it! You can now use Nuxt Appwrite in your Nuxt app
+That's it! You can now use Nuxt Appwrite II in your Nuxt app
 
 ## Web SDK
 
@@ -57,13 +57,13 @@ Add your Appwrite credentials.
 
 - `enabled` Enable/Disable Web SDK - default `true`
 - `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
-- `projectId` Project ID **the module will not load if missing**
+- `projectId` Project ID __the module will not load if missing__
 - `defaultLocale` default `en-US`
 
 ```ts
 export default defineNuxtConfig({
   // ...restOfConfig
-  modules: ['nuxt-appwrite'],
+  modules: ['nuxt-appwrite-ii'],
   nuxtAppwrite: {
     client: {
       enabled: true,
@@ -99,10 +99,10 @@ The server side integration should be used with caution as it exposes 2 clients,
 ### `useAppwriteSSRAdminClient` Server Util
 
 This composable needs an `API KEY` with at least `session.create` permissions. It can be used to create sessions,
-do administrative tasks. ***CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN***
+do administrative tasks. *__CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN__*
 
 ```ts
-import { useAppwriteSSRAdminClient } from '#nuxt-appwrite/server/services'
+import { useAppwriteSSRAdminClient } from '#nuxt-appwrite-ii/server/services'
 
 export default defineEventHandler(async (event) => {
   const { account, AppwriteException } = useAppwriteSSRAdminClient(event)
@@ -159,15 +159,19 @@ export default defineEventHandler(async (event) => {
 
 </details>
 
+## Credits
+
+- Inspiration -> Nuxt Supabase Module
+
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-appwrite/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/nuxt-appwrite
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-appwrite-ii/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/nuxt-appwrite-ii
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-appwrite.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npmjs.com/package/nuxt-appwrite
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-appwrite-ii.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npmjs.com/package/nuxt-appwrite-ii
 
-[license-src]: https://img.shields.io/npm/l/nuxt-appwrite.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/nuxt-appwrite
+[license-src]: https://img.shields.io/npm/l/nuxt-appwrite-ii.svg?style=flat&colorA=020420&colorB=00DC82
+[license-href]: https://npmjs.com/package/nuxt-appwrite-ii
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com

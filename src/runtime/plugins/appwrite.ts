@@ -17,7 +17,7 @@ import type { Appwrite } from '../types'
 import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin({
-  name: 'nuxt-appwrite',
+  name: 'nuxt-appwrite-ii',
   setup(nuxtApp) {
     const config = nuxtApp.$config.public.appwrite
 

@@ -40,12 +40,12 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(runtimeDir)
 
     nuxt.options.alias['#nuxt-appwrite'] = resolve(runtimeDir)
-    // nuxt.options.alias['#nuxt-appwrite-ssr'] = resolve(runtimeDir, 'server/services')
+    // nuxt.options.alias['#nuxt-appwrite-ii-ssr'] = resolve(runtimeDir, 'server/services')
 
     addTemplate({
       filename: 'types/appwrite.d.ts',
       getContents: () => `
-        import type { AppwriteClient, AppwriteServer } from '#nuxt-appwrite/types'
+        import type { AppwriteClient, AppwriteServer } from '#nuxt-appwrite-ii/types'
 
         declare module 'nuxt/schema' {
           interface RuntimeConfig {
@@ -60,7 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     if (options.client?.enabled && !options.client.projectId) {
-      console.warn('NUXT APPWRITE: client config missing project id, web client will not load ⚠️')
+      console.warn('Nuxt Appwrite II: client config missing project id, web client will not load ⚠️')
     }
     else {
       nuxtOpts.runtimeConfig.public.appwrite = defu(
@@ -88,7 +88,7 @@ export default defineNuxtModule<ModuleOptions>({
       (isServerConfigEnabled && !options.server?.projectId)
       || (isServerConfigEnabled && !options.server?.apiKey)
     ) {
-      console.warn('NUXT APPWRITE: server config missing project id or api key, server client will not load ⚠️')
+      console.warn('Nuxt Appwrite II: server config missing project id or api key, server client will not load ⚠️')
     }
     else {
       nuxtOpts.runtimeConfig.appwrite = defu(
@@ -107,7 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
 
       // nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-      // nuxt.options.nitro.alias['#nuxt-appwrite-ssr'] = resolve('./runtime/server/services')
+      // nuxt.options.nitro.alias['#nuxt-appwrite-ii-ssr'] = resolve('./runtime/server/services')
 
       extendViteConfig((config) => {
         config.optimizeDeps ||= {}

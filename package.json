@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-appwrite",
+  "name": "nuxt-appwrite-ii",
   "version": "1.0.0",
   "description": "Appwrite Client and Server integration for Nuxt",
-  "repository": "your-org/nuxt-appwrite",
+  "repository": "samk-dev/nuxt-appwrite-ii",
   "license": "MIT",
   "type": "module",
   "exports": {
