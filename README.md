@@ -102,6 +102,24 @@ Add your Appwrite credentials.
 - `apiKey` Api Key __the module will not load if missing__
 - `defaultLocale` default `en-US`
 
+```ts
+export default defineNuxtConfig({
+  // ...restOfConfig
+  modules: ['nuxt-appwrite-ii'],
+  nuxtAppwrite: {
+    //client: {...clientoptions},
+    server: {
+      enabled: true,
+      endpoint: 'https://cloud.appwrite.io/v1',
+      projectId: '', // required**
+      apiKey: '', // required**
+      defaultLocale: 'en-US'
+    }
+  },
+  // ...restOfConfig
+})
+```
+
 The server side integration should be used with caution as it exposes 2 clients, `useAppwriteSSRAdminClient` and `useAppwriteSSRSessionClient`
 
 ### `useAppwriteSSRAdminClient` Server Util
