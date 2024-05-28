@@ -8,8 +8,8 @@
 Appwrite Client and Server integration for Nuxt. It'a a bit opinionated to suit the projects I am working on, feel free to use it but before using please checkout [nuxt-appwrite-ii by @Hrdtr](https://nuxt.com/modules/appwrite)
 
 - [✨ &nbsp;Changelog](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-appwrite-ii?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-appwrite-ii?file=playground%2Fapp.vue) -->
+  <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
 
@@ -57,7 +57,7 @@ Add your Appwrite credentials.
 
 - `enabled` Enable/Disable Web SDK - default `true`
 - `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
-- `projectId` Project ID __the module will not load if missing__
+- `projectId` Project ID **the module will not load if missing**
 - `defaultLocale` default `en`
 
 ```ts
@@ -70,8 +70,8 @@ export default defineNuxtConfig({
       endpoint: 'https://cloud.appwrite.io/v1',
       projectId: '', // required**
       defaultLocale: 'en'
-    },
-  },
+    }
+  }
   // ...restOfConfig
 })
 ```
@@ -98,8 +98,8 @@ Add your Appwrite credentials.
 
 - `enabled` Enable/Disable Web SDK - default `false`
 - `endpoint` The default endpoint is `https://cloud.appwrite.io/v1`
-- `projectId` Project ID __the module will not load if missing__
-- `apiKey` Api Key __the module will not load if missing__
+- `projectId` Project ID **the module will not load if missing**
+- `apiKey` Api Key **the module will not load if missing**
 - `cookieName` Session cookie name - default `a_session`
 - `i18nCookieKey` nuxt-i18n cookie key - default `i18n_redirected`
 - `defaultLocale` default `en`
@@ -119,7 +119,7 @@ export default defineNuxtConfig({
       i18nCookieKey: 'i18n_redirected',
       defaultLocale: 'en'
     }
-  },
+  }
   // ...restOfConfig
 })
 ```
@@ -129,13 +129,16 @@ The server side integration should be used with caution as it exposes 2 clients,
 ### `useAppwriteSSRAdminClient` Server Util
 
 This composable needs an `API KEY` with at least `session.create` permissions. It can be used to create sessions,
-do administrative tasks. *__CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN AND BYPASS ANY RATE LIMITS AND PERMISSIONS__*
+do administrative tasks. _**CAUTION WITH WHAT YOU DO WITH THE UTIL AS IT ACTS ON BEHALF OF APPWRITE SUPER ADMIN AND BYPASS ANY RATE LIMITS AND PERMISSIONS**_
 
 ```ts
 import { useAppwriteSSRAdminClient } from '#nuxt-appwrite-ssr'
 
 export default defineEventHandler(async (event) => {
-  const { email, password } = await readBody<{ email: string, password: string }>(event)
+  const { email, password } = await readBody<{
+    email: string
+    password: string
+  }>(event)
   const { account, AppwriteException } = useAppwriteSSRAdminClient(event)
 
   const config = useRuntimeConfig(event)
@@ -148,23 +151,21 @@ export default defineEventHandler(async (event) => {
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'strict'
     })
 
     return { status: 'success', message: 'session created' }
-  }
-  catch (error: any) {
+  } catch (error: any) {
     if (error instanceof AppwriteException) {
       return createError({
         statusCode: error.code,
         statusMessage: error.message,
-        message: error.name,
+        message: error.name
       })
     }
     return createError(error)
   }
 })
-
 ```
 
 ### `useAppwriteSSRSessionClient` Server Util
@@ -179,19 +180,17 @@ export default defineEventHandler(async (event) => {
 
   try {
     return await account.get()
-  }
-  catch (error: any) {
+  } catch (error: any) {
     if (error instanceof AppwriteException) {
       return createError({
         statusCode: error.code,
         statusMessage: error.message,
-        message: error.name,
+        message: error.name
       })
     }
     return createError(error)
   }
 })
-
 ```
 
 ## i18n Support
@@ -236,14 +235,12 @@ The Server SDK relies on `nuxt-i18n` `i18nCookieKey` and updates the client loca
 - Inspiration -> Nuxt Supabase Module
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-appwrite-ii/latest.svg?style=flat&colorA=020420&colorB=00DC82
 [npm-version-href]: https://npmjs.com/package/nuxt-appwrite-ii
-
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-appwrite-ii.svg?style=flat&colorA=020420&colorB=00DC82
 [npm-downloads-href]: https://npmjs.com/package/nuxt-appwrite-ii
-
 [license-src]: https://img.shields.io/npm/l/nuxt-appwrite-ii.svg?style=flat&colorA=020420&colorB=00DC82
 [license-href]: https://npmjs.com/package/nuxt-appwrite-ii
-
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com

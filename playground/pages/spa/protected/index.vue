@@ -7,8 +7,7 @@ onMounted(async () => {
   try {
     const user = await account.get()
     currentUser.value = user
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 })

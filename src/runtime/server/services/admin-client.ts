@@ -12,7 +12,7 @@ import {
   Role,
   Query,
   ID,
-  AppwriteException,
+  AppwriteException
 } from 'node-appwrite'
 import { type H3Event, getCookie } from 'h3'
 import type { AppwriteNode } from '../../types'
@@ -75,6 +75,6 @@ export const useAppwriteSSRAdminClient = (event: H3Event) => {
     },
     get AppwriteException() {
       return AppwriteException
-    },
+    }
   } satisfies AppwriteNode
 }

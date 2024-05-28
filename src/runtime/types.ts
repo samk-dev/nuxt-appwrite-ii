@@ -11,7 +11,7 @@ import type {
   Query,
   Role,
   AppwriteException,
-  ID,
+  ID
 } from 'appwrite'
 import type {
   Account as AccountSSR,
@@ -27,7 +27,7 @@ import type {
   Query as QuerySSR,
   Role as RoleSSR,
   AppwriteException as AppwriteExceptionSSR,
-  ID as IDSSR,
+  ID as IDSSR
 } from 'node-appwrite'
 
 // TODO: export appwrite MODEL types
@@ -84,6 +84,7 @@ type AppwriteCommonConfig = {
    */
   defaultLocale?: string
 }
+
 export type AppwriteClient = AppwriteCommonConfig & {
   /**
    * Enable/Disable Appwrite client SDK

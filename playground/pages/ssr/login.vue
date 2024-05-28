@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const form = reactive({
   email: '',
-  password: '',
+  password: ''
 })
 
 const onLogin = async () => {
@@ -10,12 +10,11 @@ const onLogin = async () => {
       method: 'POST',
       body: {
         email: form.email,
-        password: form.password,
-      },
+        password: form.password
+      }
     })
     await navigateTo('/ssr/protected')
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -26,12 +25,18 @@ const onLogin = async () => {
     <h1>Login</h1>
 
     <form @submit.prevent="onLogin">
-      <input v-model.trim="form.email" type="email" placeholder="Enter your email">
-      <input v-model.trim="form.password" type="password" placeholder="Enter your password">
+      <input
+        v-model.trim="form.email"
+        type="email"
+        placeholder="Enter your email"
+      />
+      <input
+        v-model.trim="form.password"
+        type="password"
+        placeholder="Enter your password"
+      />
 
-      <button type="submit">
-        Login
-      </button>
+      <button type="submit">Login</button>
     </form>
   </div>
 </template>
