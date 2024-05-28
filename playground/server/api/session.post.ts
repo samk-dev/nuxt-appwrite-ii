@@ -1,7 +1,10 @@
 import { useAppwriteSSRAdminClient } from '#nuxt-appwrite-ssr'
 
 export default defineEventHandler(async (event) => {
-  const { email, password } = await readBody<{ email: string, password: string }>(event)
+  const { email, password } = await readBody<{
+    email: string
+    password: string
+  }>(event)
   const { account, AppwriteException } = useAppwriteSSRAdminClient(event)
 
   const config = useRuntimeConfig(event)
@@ -14,18 +17,16 @@ export default defineEventHandler(async (event) => {
       path: '/',
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'strict'
     })
 
     return { status: 'success', message: 'session created' }
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  catch (error: any) {
+  } catch (error: any) {
     if (error instanceof AppwriteException) {
       return createError({
         statusCode: error.code,
         statusMessage: error.message,
-        message: error.name,
+        message: error.name
       })
     }
     return createError(error)

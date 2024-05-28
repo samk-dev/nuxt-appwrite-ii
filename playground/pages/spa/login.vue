@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const form = reactive({
   email: '',
-  password: '',
+  password: ''
 })
 
 const { account } = useAppwrite()
@@ -9,8 +9,7 @@ const onLogin = async () => {
   try {
     await account.createEmailPasswordSession(form.email, form.password)
     await navigateTo('/spa/protected')
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -21,12 +20,18 @@ const onLogin = async () => {
     <h1>Login</h1>
 
     <form @submit.prevent="onLogin">
-      <input v-model.trim="form.email" type="email" placeholder="Enter your email">
-      <input v-model.trim="form.password" type="password" placeholder="Enter your password">
+      <input
+        v-model.trim="form.email"
+        type="email"
+        placeholder="Enter your email"
+      />
+      <input
+        v-model.trim="form.password"
+        type="password"
+        placeholder="Enter your password"
+      />
 
-      <button type="submit">
-        Login
-      </button>
+      <button type="submit">Login</button>
     </form>
   </div>
 </template>

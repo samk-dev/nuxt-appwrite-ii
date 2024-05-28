@@ -11,7 +11,7 @@ import {
   Query,
   Role,
   Storage,
-  Teams,
+  Teams
 } from 'appwrite'
 import type { Appwrite } from '../types'
 import { defineNuxtPlugin } from '#app'
@@ -27,9 +27,12 @@ export default defineNuxtPlugin({
       .setLocale(String(config.defaultLocale))
 
     // @ts-expect-error: nuxt-i18n
-    nuxtApp.hook('i18n:beforeLocaleSwitch', ({ newLocale }: { newLocale: string }) => {
-      client.setLocale(newLocale)
-    })
+    nuxtApp.hook(
+      'i18n:beforeLocaleSwitch',
+      ({ newLocale }: { newLocale: string }) => {
+        client.setLocale(newLocale)
+      }
+    )
 
     return {
       provide: {
@@ -46,9 +49,9 @@ export default defineNuxtPlugin({
           Query,
           Role,
           AppwriteException,
-          ID,
-        } satisfies Appwrite,
-      },
+          ID
+        } satisfies Appwrite
+      }
     }
-  },
+  }
 })

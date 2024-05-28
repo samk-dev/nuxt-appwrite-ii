@@ -3,8 +3,7 @@ export default defineNuxtRouteMiddleware(async (to, _from) => {
     const { account } = useAppwrite()
     try {
       await account.get()
-    }
-    catch (error) {
+    } catch (error) {
       return await navigateTo('/spa/login')
     }
   }

@@ -6,15 +6,11 @@ const { data: currentUser, pending, error } = useFetch('/api/account')
   <div>
     protected page
 
-    <p v-if="pending">
-      loading...
-    </p>
+    <p v-if="pending">loading...</p>
 
     <p v-else-if="error">
       There has been an error
-    <pre>
-        {{ error }}
-      </pre>
+      {{ error }}
     </p>
 
     <pre v-else>{{ currentUser }}</pre>

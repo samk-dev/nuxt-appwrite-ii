@@ -1,12 +1,19 @@
 import { fileURLToPath } from 'node:url'
-import { defineNuxtModule, addPlugin, createResolver, addTemplate, addImports, extendViteConfig } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  addPlugin,
+  createResolver,
+  addTemplate,
+  addImports,
+  extendViteConfig
+} from '@nuxt/kit'
 import { defu } from 'defu'
 import { name, version } from '../package.json'
 import type { ModuleOptions } from './runtime/types'
 
 const defaultEndpoint = 'https://cloud.appwrite.io/v1'
 const defaultLocale = 'en'
-
+console.log('some stuff')
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
@@ -14,15 +21,15 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'nuxtAppwrite',
     compatibility: {
       nuxt: '^3.0.0',
-      bridge: false,
-    },
+      bridge: false
+    }
   },
   defaults: {
     client: {
       enabled: true,
       endpoint: defaultEndpoint,
       projectId: '',
-      defaultLocale,
+      defaultLocale
     },
     server: {
       enabled: false,
@@ -32,8 +39,8 @@ export default defineNuxtModule<ModuleOptions>({
       defaultLocale,
       cookieName: 'a_session',
       i18nCookieKey: 'i18nCookieKey',
-      selfsignedSSL: false,
-    },
+      selfsignedSSL: false
+    }
   },
   setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
@@ -60,16 +67,17 @@ export default defineNuxtModule<ModuleOptions>({
           }
         }
         export {};
-      `,
+      `
     })
 
     if (options.client?.enabled && !options.client.projectId) {
-      console.warn('Nuxt Appwrite II: client config missing project id, web client will not load ⚠️')
-    }
-    else {
+      console.warn(
+        'Nuxt Appwrite II: client config missing project id, web client will not load ⚠️'
+      )
+    } else {
       nuxtOpts.runtimeConfig.public.appwrite = defu(
         nuxtOpts.runtimeConfig.public.appwrite,
-        options.client,
+        options.client
       )
 
       extendViteConfig((config) => {
@@ -83,29 +91,37 @@ export default defineNuxtModule<ModuleOptions>({
       addImports({
         name: 'useAppwrite',
         as: 'useAppwrite',
-        from: resolve(moduleRuntimeDir, 'composables/useAppwrite'),
+        from: resolve(moduleRuntimeDir, 'composables/useAppwrite')
       })
     }
 
     const isServerConfigEnabled = options.server?.enabled
     if (
-      (isServerConfigEnabled && !options.server?.projectId)
-      || (isServerConfigEnabled && !options.server?.apiKey)
+      (isServerConfigEnabled && !options.server?.projectId) ||
+      (isServerConfigEnabled && !options.server?.apiKey)
     ) {
-      console.warn('Nuxt Appwrite II: server config missing project id or api key, server client will not load ⚠️')
-    }
-    else {
+      console.warn(
+        'Nuxt Appwrite II: server config missing project id or api key, server client will not load ⚠️'
+      )
+    } else {
       nuxtOpts.runtimeConfig.appwrite = defu(
         nuxtOpts.runtimeConfig.appwrite,
-        options.server,
+        options.server
       )
 
       nuxt.hook('nitro:config', (nitroConfig) => {
         nitroConfig.alias = nitroConfig.alias || {}
-        nitroConfig.externals = defu(typeof nitroConfig.externals === 'object' ? nitroConfig.externals : {}, {
-          inline: [resolve('./runtime')],
-        })
-        nitroConfig.alias['#nuxt-appwrite-ssr'] = resolve('./runtime/server/services')
+        nitroConfig.externals = defu(
+          typeof nitroConfig.externals === 'object'
+            ? nitroConfig.externals
+            : {},
+          {
+            inline: [resolve('./runtime')]
+          }
+        )
+        nitroConfig.alias['#nuxt-appwrite-ssr'] = resolve(
+          './runtime/server/services'
+        )
       })
 
       extendViteConfig((config) => {
@@ -115,5 +131,5 @@ export default defineNuxtModule<ModuleOptions>({
       })
       nuxtOpts.build.transpile.push('node-appwrite')
     }
-  },
+  }
 })
